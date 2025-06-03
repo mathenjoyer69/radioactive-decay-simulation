@@ -32,7 +32,7 @@ class Atom:
         self.id = atom_id
         self.radius = 24
         self.decayed = False
-        self.lifetime = -math.log(2, math.e) * isotopes[atom_type]["half_life"] / math.log(random.random())
+        self.lifetime = -math.log(2, math.e) * isotopes[atom_type]["half_life"] / math.log(abs(random.random()-0.1))
         self.in_basket = True
         self.dragging = False
         self.vibrate_offset = (0, 0)
@@ -82,7 +82,7 @@ class Timeline:
     def draw(self, surface, current_time, half_life):
         pygame.draw.rect(surface, BLACK, self.rect, 1)
 
-        for i in range(4):
+        for i in range(5):
             position = int(self.rect.x + (i * half_life / self.max_time) * self.rect.width)
             pygame.draw.line(surface, BLACK, (position, self.rect.y), (position, self.rect.y + 10), 2)
             text = f"{i}T½"
