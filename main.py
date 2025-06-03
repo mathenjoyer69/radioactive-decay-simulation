@@ -12,7 +12,7 @@ class DecaySimulation:
         self.atom_count = 0
         self.last_update = pygame.time.get_ticks()
 
-        self.u_button = Button(WIDTH - 200, 50, 180, 40, "rubidium-87", green, dark_green)
+        self.rb_button = Button(WIDTH - 200, 110, 180, 40, "rubidium-87", green, dark_green)
         self.start_pause_button = Button(WIDTH - 200, 160, 180, 40, "Start", green_button, dark_green_button)
         self.reset_button = Button(WIDTH - 200, 210, 180, 40, "Reset Time", gray, dark_gray)
 
@@ -39,7 +39,7 @@ class DecaySimulation:
         self.time = 0
         self.is_running = False
 
-        self.u_button.is_selected = isotope_type == "rubidium"
+        self.rb_button.is_selected = isotope_type == "rubidium"
 
         self.speed_buttons = []
         y_offset = 270
@@ -54,7 +54,7 @@ class DecaySimulation:
             self.atoms.append(atom)
 
         half_life = isotopes[isotope_type]["half_life"]
-        self.timeline = Timeline(20, 50, WIDTH - 260, 40, half_life * 3)
+        self.timeline = Timeline(20, 50, WIDTH - 100, 40, half_life * 4)
 
         self.start_pause_button.text = "Start"
 
@@ -62,7 +62,7 @@ class DecaySimulation:
         mouse_pos = pygame.mouse.get_pos()
 
         if event.type == pygame.MOUSEMOTION:
-            self.u_button.is_hovered = self.u_button.is_over(mouse_pos)
+            self.rb_button.is_hovered = self.rb_button.is_over(mouse_pos)
             self.start_pause_button.is_hovered = self.start_pause_button.is_over(mouse_pos)
             self.reset_button.is_hovered = self.reset_button.is_over(mouse_pos)
 
@@ -76,7 +76,7 @@ class DecaySimulation:
                 atom.in_basket = False
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.u_button.is_over(mouse_pos):
+            if self.rb_button.is_over(mouse_pos):
                 self.create_basket("rubidium")
             elif self.selected_isotope and self.start_pause_button.is_over(mouse_pos):
                 self.is_running = not self.is_running
@@ -123,7 +123,7 @@ class DecaySimulation:
     def draw(self, surface):
         surface.fill(WHITE)
 
-        self.u_button.draw(surface)
+        self.rb_button.draw(surface)
 
         if self.selected_isotope:
             self.start_pause_button.draw(surface)
@@ -145,7 +145,7 @@ class DecaySimulation:
             pygame.draw.rect(surface, WHITE, stats_rect)
             pygame.draw.rect(surface, BLACK, stats_rect, 1)
 
-            time_text = f"Time: {(self.time / 365.25 / 1e6):.2f}M years"
+            time_text = f"Time: {(self.time / 365.25 / 1e9):.2f}b years"
 
             decay_text = f"Decayed: {decayed_count}/{len(self.atoms)}"
 
