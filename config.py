@@ -25,13 +25,6 @@ font = pygame.font.SysFont(None, 24)
 small_font = pygame.font.SysFont(None, 20)
 
 isotopes = {
-    "polonium": {
-        "symbol": "Po-210",
-        "half_life": 138.376 * 365.25,
-        "decay_product": "Pb-206",
-        "color": (139, 0, 255),
-        "decay_product_color": (70, 130, 180)
-    },
     "rubidium": {
         "symbol": "Rb-87",
         "half_life": 48.8e9 * 365.25,
