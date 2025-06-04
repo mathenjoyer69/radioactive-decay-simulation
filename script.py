@@ -1,6 +1,7 @@
 import csv
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 def read_data(path):
     Rb_Sr_list = []
@@ -22,8 +23,8 @@ def plot_best_fit_line(x_list, y_list, name):
     plt.ylabel('$^{87}Sr/^{86}Sr$')
     plt.title(name)
     plt.legend()
-
-    plt.savefig(f"C:/Users/ariel/PycharmProjects/phat-alpha-decay-simulation/images/{name}.png",format='png')
+    output_dir = os.path.join("images")
+    plt.savefig(os.path.join(output_dir, f"{name}.png"), format='png')
     plt.cla()
     plt.close()
     return m,b
