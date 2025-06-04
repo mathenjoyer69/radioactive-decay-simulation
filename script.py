@@ -1,5 +1,47 @@
-import numpy as np
+import csv
 import matplotlib.pyplot as plt
+import numpy as np
+
+def read_data(path):
+    Rb_Sr_list = []
+    Sr_Sr_list = []
+    with open(path) as csvfile:
+        data = list(csv.reader(csvfile, delimiter=','))
+    for i in range(2,len(data),2):
+        Rb_Sr_list.append(float(data[i][0]))
+        Sr_Sr_list.append(float(data[i][1]))
+    return Rb_Sr_list, Sr_Sr_list
+
+def plot_best_fit_line(x_list,y_list,name):
+    m, b = np.polyfit(np.array(x_list), np.array(y_list), 1)
+    y_pred = np.array(x_list) * m + b
+    plt.plot(x_list,y_pred,'--')
+
+    plt.plot(x_list,y_list,'o',label=f"y={m:.4f}x+{b:.3f}")
+    plt.xlabel('$^{87}Rb/^{87}Sr$')
+    plt.ylabel('$^{87}Sr/^{86}Sr$')
+    plt.title(name)
+    plt.legend()
+
+    plt.savefig(f"C:/Users/ariel/PycharmProjects/phat-alpha-decay-simulation/images/{name}.png",format='png')
+    plt.cla()
+    return m,b
+
+def calc_age(slope, Lambda):
+    return np.log(slope+1)/Lambda
+
+directories = ["csv_files/Abee.csv","csv_files/Jelica.csv","csv_files/Olivenza.csv"
+               ,"csv_files/Saint-Sauveur.csv","csv_files/Soko-Banja.csv"]
+names=["Abee","Jelica","Olivenza","Saint-Sauver","Soko-Banja"]
+
+ages = []
+lambda_r = 1.42e-11
+for i in range(len(directories)):
+     Rb_Sr_list,Sr_Sr_list=read_data(directories[i])
+     m,b = plot_best_fit_line(Rb_Sr_list,Sr_Sr_list,names[i])
+     ages.append(calc_age(m, lambda_r))
+
+print("the average age is:",np.average(ages)/1e9)
 
 def isochron_graph(initial_elements, decay_constant):
     Rb_Sr_range = np.linspace(0, 1.0, 5)
@@ -12,7 +54,7 @@ def isochron_graph(initial_elements, decay_constant):
     for t in time_slices:
         Sr_ratios = initial_elements + Rb_Sr_range * (np.exp(decay_constant * t) - 1)
         Sr_ratios_per_time.append(Sr_ratios)
-        ax.plot(Rb_Sr_range, Sr_ratios, lw=1)
+        ax.plot(Rb_Sr_range, Sr_ratios)
         ax.plot(Rb_Sr_range, Sr_ratios)
 
     for i in range(len(time_slices) - 1):
@@ -32,6 +74,5 @@ def isochron_graph(initial_elements, decay_constant):
     ax.grid(True)
     plt.show()
 
-lambda_r = 1.42e-11
 Sr87_Sr86_initial = 0.69885
 isochron_graph(Sr87_Sr86_initial, lambda_r)
