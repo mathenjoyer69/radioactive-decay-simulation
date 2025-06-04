@@ -62,21 +62,19 @@ def isochron_graph(initial_elements, decay_constant):
     ax.grid(True)
     plt.show()
 
-directories = ["csv_files/Abee.csv","csv_files/Jelica.csv","csv_files/Olivenza.csv"
-               ,"csv_files/Saint-Sauveur.csv","csv_files/Soko-Banja.csv"]
-names=["Abee","Jelica","Olivenza","Saint-Sauver","Soko-Banja"]
+directories = ["csv_files/Abee.csv", "csv_files/Jelica.csv", "csv_files/Olivenza.csv", "csv_files/Saint-Sauveur.csv", "csv_files/Soko-Banja.csv"]
+names=["Abee", "Jelica", "Olivenza", "Saint-Sauver", "Soko-Banja"]
 
 ages = []
 sr87_sr86_list = []
-lambda_r = 1.397e-11
+lambda_r = 1.42e-11
 for i in range(len(directories)):
      Rb_Sr_list,Sr_Sr_list=read_data(directories[i])
      m, _ = plot_best_fit_line(Rb_Sr_list,Sr_Sr_list,names[i])
      ages.append(calc_age(m, lambda_r))
      sr87_sr86_list.append(sum(Sr_Sr_list)/len(Sr_Sr_list))
 
-print("the average age is:",np.average(ages)/1e9)
+print(f"the average age is: {np.average(ages)/1e9:.4f} Billion Years")
 
 Sr87_Sr86_average = sum(sr87_sr86_list)/len(sr87_sr86_list)
-print(Sr87_Sr86_average)
 isochron_graph(Sr87_Sr86_average, lambda_r)
