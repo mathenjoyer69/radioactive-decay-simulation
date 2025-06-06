@@ -20,6 +20,7 @@ green_button = (50, 200, 50)
 dark_green_button = (20, 150, 20)
 gray = (100, 100, 100)
 dark_gray = (70, 70, 70)
+dark_red = (139, 0, 0)
 
 font = pygame.font.SysFont(None, 24)
 small_font = pygame.font.SysFont(None, 20)

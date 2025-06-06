@@ -12,7 +12,7 @@ class DecaySimulation:
         self.atom_count = 0
         self.last_update = pygame.time.get_ticks()
         self.electrons = []
-        self.rb_button = Button(WIDTH - 200, 110, 180, 40, "rubidium-87", green, dark_green)
+        self.rb_button = Button(WIDTH - 200, 110, 180, 40, "rubidium-87", RED, dark_red)
         self.start_pause_button = Button(WIDTH - 200, 160, 180, 40, "Start", green_button, dark_green_button)
         self.reset_button = Button(WIDTH - 200, 210, 180, 40, "Reset Time", gray, dark_gray)
 
