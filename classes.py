@@ -112,7 +112,8 @@ class Timeline:
         time_position = min(self.rect.x + int((current_time / self.max_time) * self.rect.width), self.rect.x + self.rect.width)
         pygame.draw.line(surface, BLUE, (time_position, self.rect.y), (time_position, self.rect.y + self.rect.height), 2)
 
-    def draw_decay_graph(self, surface, element, time):
+    @staticmethod
+    def draw_decay_graph(surface, element, time):
         graph_width = WIDTH // 4
         graph_height = HEIGHT // 4
         graph_x = WIDTH - graph_width - 20

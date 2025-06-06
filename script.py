@@ -43,8 +43,9 @@ def isochron_graph(initial_elements, decay_constant):
     for t in time_slices:
         Sr_ratios = initial_elements + Rb_Sr_range * (np.exp(decay_constant * t) - 1)
         Sr_ratios_per_time.append(Sr_ratios)
+        print((Sr_ratios[1] - Sr_ratios[0])/(Rb_Sr_range[1] - Rb_Sr_range[0]))
         ax.plot(Rb_Sr_range, Sr_ratios)
-        ax.plot(Rb_Sr_range, Sr_ratios)
+
 
     for i in range(len(time_slices) - 1):
         for j in range(len(Rb_Sr_range)):
