@@ -23,7 +23,6 @@ class Button:
     def is_over(self, pos):
         return self.rect.collidepoint(pos)
 
-
 class Atom:
     def __init__(self, x, y, atom_type, atom_id):
         self.x = x
@@ -32,7 +31,7 @@ class Atom:
         self.id = atom_id
         self.radius = 24
         self.decayed = False
-        self.lifetime = -math.log(2, math.e) * isotopes[atom_type]["half_life"] / math.log(abs(random.random()-0.1))
+        self.lifetime = -math.log(2) * isotopes[atom_type]["half_life"] / math.log(abs(random.random()-0.1))
         self.in_basket = True
         self.dragging = False
         self.vibrate_offset = (0, 0)
@@ -65,6 +64,23 @@ class Atom:
     def is_over(self, pos):
         return math.sqrt((pos[0] - self.x) ** 2 + (pos[1] - self.y) ** 2) < self.radius
 
+class Electron:
+    def __init__(self, x, y, direction):
+        self.pos = pygame.Vector2(x, y)
+        self.direction = pygame.Vector2(direction).normalize()
+        self.speed = 5
+        self.radius = 3
+        self.color = (0, 0, 255)
+
+    def update(self):
+        self.pos += self.direction * self.speed
+
+    def draw(self, surface):
+        pygame.draw.circle(surface, self.color, (int(self.pos.x), int(self.pos.y)), self.radius)
+
+    def is_off_screen(self):
+        return (self.pos.x < -self.radius or self.pos.x > WIDTH + self.radius or
+                self.pos.y < -self.radius or self.pos.y > HEIGHT + self.radius)
 
 class Timeline:
     def __init__(self, x, y, width, height, max_time):

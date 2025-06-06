@@ -11,7 +11,7 @@ class DecaySimulation:
         self.dragging_atom = None
         self.atom_count = 0
         self.last_update = pygame.time.get_ticks()
-
+        self.electrons = []
         self.rb_button = Button(WIDTH - 200, 110, 180, 40, "rubidium-87", green, dark_green)
         self.start_pause_button = Button(WIDTH - 200, 160, 180, 40, "Start", green_button, dark_green_button)
         self.reset_button = Button(WIDTH - 200, 210, 180, 40, "Reset Time", gray, dark_gray)
@@ -105,6 +105,9 @@ class DecaySimulation:
         elif event.type == pygame.MOUSEBUTTONUP:
             self.dragging_atom = None
 
+    def shoot_electron(self, x, y, direction):
+        self.electrons.append(Electron(x, y, direction))
+
     def update(self):
         if not self.is_running or not self.selected_isotope:
             return
@@ -118,6 +121,7 @@ class DecaySimulation:
         for atom in self.atoms:
             if not atom.decayed and self.time >= atom.lifetime:
                 atom.decayed = True
+                self.shoot_electron(atom.x, atom.y, (random.uniform(-1, 1), random.uniform(-1, 1)))
                 self.timeline.add_decay_event(atom.id, atom.lifetime, (atom.x, atom.y))
 
     def draw(self, surface):
@@ -141,6 +145,12 @@ class DecaySimulation:
             for atom in self.atoms:
                 atom.draw(surface, self.time)
 
+            for electron in self.electrons[:]:
+                electron.update()
+                electron.draw(surface)
+                if electron.is_off_screen():
+                    self.electrons.remove(electron)
+
             stats_rect = pygame.Rect(WIDTH - 200, 400, 180, 80)
             pygame.draw.rect(surface, WHITE, stats_rect)
             pygame.draw.rect(surface, BLACK, stats_rect, 1)
@@ -160,8 +170,6 @@ class DecaySimulation:
             text_rect = text_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))
             surface.blit(text_surface, text_rect)
 
-
-
 def main():
     clock = pygame.time.Clock()
     simulation = DecaySimulation()
@@ -171,8 +179,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            simulation.handle_event(event)
 
+            simulation.handle_event(event)
         simulation.update()
         simulation.draw(screen)
 

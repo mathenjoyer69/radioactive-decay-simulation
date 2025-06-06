@@ -34,7 +34,7 @@ def calc_age(slope, Lambda):
 
 def isochron_graph(initial_elements, decay_constant):
     Rb_Sr_range = np.linspace(0, 1.0, 5)
-    time_slices = [0, 1e9, 2e9, 3e9, 4e9,4.5e9]
+    time_slices = [0, 1e9, 2e9, 3e9, 4e9, 4.5e9]
 
     fig, ax = plt.subplots(figsize=(11, 8))
 
@@ -53,7 +53,7 @@ def isochron_graph(initial_elements, decay_constant):
             y_end = Sr_ratios_per_time[i + 1][j]
             ax.annotate('', xy=(float(x), float(y_end)), xytext=(float(x), float(y_start)), arrowprops=dict(arrowstyle='->', color='gray'))
             mid_y = (y_start + y_end) / 2
-            ax.text(float(x) + 0.01, float(mid_y), f'{(time_slices[i + 1] - time_slices[i]) / 1e9:.1f} Gyr', fontsize=8, color='gray')
+            ax.text(float(x), float(mid_y), f'{(time_slices[i + 1] - time_slices[i]) / 1e9:.1f} Gyr', fontsize=8, color='gray')
 
     ax.set_xlabel(r"$^{87}$Rb/$^{86}$Sr")
     ax.set_ylabel(r"$^{87}$Sr/$^{86}$Sr")
