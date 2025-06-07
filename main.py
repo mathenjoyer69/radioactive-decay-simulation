@@ -1,4 +1,7 @@
 import sys
+
+import pygame.key
+
 from classes import *
 
 class DecaySimulation:
@@ -15,7 +18,7 @@ class DecaySimulation:
         self.rb_button = Button(WIDTH - 200, 110, 180, 40, "rubidium-87", RED, dark_red)
         self.start_pause_button = Button(WIDTH - 200, 160, 180, 40, "Start", green_button, dark_green_button)
         self.reset_button = Button(WIDTH - 200, 210, 180, 40, "Reset Time", gray, dark_gray)
-
+        self.flag = False
         self.speed_options = {
             "rubidium": [
                 {"value": 365.25 * 1e8, "label": "100M years/sec"},
@@ -76,6 +79,12 @@ class DecaySimulation:
                 atom.in_basket = False
 
         if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1 and not self.flag and self.selected_isotope:
+                for atom in self.atoms:
+                    atom.x = random.randint(100, 700)
+                    atom.y = random.randint(100, 450)
+                self.flag = True
+
             if self.rb_button.is_over(mouse_pos):
                 self.create_basket("rubidium")
             elif self.selected_isotope and self.start_pause_button.is_over(mouse_pos):
