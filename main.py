@@ -96,8 +96,12 @@ class DecaySimulation:
             elif self.selected_isotope and self.reset_button.is_over(mouse_pos):
                 self.time = 0
                 self.timeline.decay_events = []
-                for atom in self.atoms:
+                for i, atom in enumerate(self.atoms):
                     atom.decayed = False
+                    x = self.basket.x + 30 + i * 20
+                    y = self.basket.y + 40
+                    atom.x, atom.y = x, y
+                    self.flag = False
 
             for i, btn in enumerate(self.speed_buttons):
                 if btn.is_over(mouse_pos):
