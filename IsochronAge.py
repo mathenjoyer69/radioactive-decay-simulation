@@ -69,7 +69,7 @@ names=["Abee", "Jelica", "Olivenza", "Saint-Sauver", "Soko-Banja"]
 
 ages = []
 sr87_sr86_list = []
-lambda_r = 1.42e-11
+lambda_r = 1.397e-11
 for i in range(len(directories)):
      Rb_Sr_list,Sr_Sr_list=read_data(directories[i])
      m, _ = plot_best_fit_line(Rb_Sr_list,Sr_Sr_list,names[i])
